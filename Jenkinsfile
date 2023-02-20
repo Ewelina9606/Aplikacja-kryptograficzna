@@ -11,7 +11,7 @@ pipeline {
         stage('Build') { 
             steps {
                 script{   
-		  dir('Aplikacja') {
+		  dir('Aplikacja-kryptograficzna') {
 		      	sh "env"
 		    	sh "cmake ./"
 		    	sh "make"
@@ -21,7 +21,7 @@ pipeline {
         }
         stage('Test') { 
             steps {
-		dir('Aplikacja') {
+		dir('Aplikacja-kryptograficzna') {
 		    	sh "ctest -T test --no-compress-output"
                 }  
             }
@@ -34,7 +34,7 @@ pipeline {
                         imagename = "ewelina9606/aplikacja-kryptograficzna:$BRANCH_NAME-$BUILD_NUMBER-RELEASE"  
                     }
                 }
-		dir('Aplikacja') {      
+		dir('Aplikacja-kryptograficzna') {      
 		    sh "docker build -t $imagename ."
                 } 		
                 sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
@@ -47,7 +47,7 @@ pipeline {
       always {
         // Archive the CTest xml output
         archiveArtifacts (
-          artifacts: 'Aplikacja/Testing/**/*.xml',
+          artifacts: 'Aplikacja-kryptograficzna/Testing/**/*.xml',
           fingerprint: true
         )
 
@@ -60,7 +60,7 @@ pipeline {
             failed(failureThreshold: '0')
           ],
         tools: [CTest(
-            pattern: 'Aplikacja/Testing/**/*.xml',
+            pattern: 'Aplikacja-kryptograficzna/Testing/**/*.xml',
             deleteOutputFiles: true,
             failIfNotNew: false,
             skipNoTestFiles: true,
