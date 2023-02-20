@@ -27,7 +27,8 @@ int main(int argc, char* argv[]) {
 		std::cout << "=== Aplikacja kryptograficzna ===" << std::endl;
 		std::cout << "Wybierz rodzaj szyfrowania: " << std::endl;
 		std::cout << "1. RSA" << std::endl;
-		std::cout << "2. Exit" << std::endl;
+		std::cout << "2. Podstawieniowy" << std::endl;
+		std::cout << "3. Exit" << std::endl;
 		std::cin >> tryb;
 		if (tryb == 1) {
 			std::cout << "Wybierz operacje: " << std::endl;
@@ -122,6 +123,96 @@ int main(int argc, char* argv[]) {
 					}
 					std::cout << std::endl;
 				}
+			}
+		}
+		else if (tryb == 2) {
+			char alf[36] = { 'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z','0','1','2','3','4','5','6','7','8','9' };
+
+			int klucz, a;
+			bool flag;
+			char x;
+
+			std::cout << "Podaj klucz" << std::endl;
+			std::cin >> klucz;
+
+			std::cout << "Wybierz operacje: " << std::endl;
+			std::cout << "1. Szyfrowanie" << std::endl;
+			std::cout << "2. Odszyfrowywanie" << std::endl;
+			std::cin >> operacja;
+			if (operacja == 1) {
+				std::cout << "Podaj wiadomosc: ";
+				std::cin.ignore(std::numeric_limits < std::streamsize >::max(), '\n');
+				std::getline(std::cin, message);
+				std::cout << std::endl;
+				int dlugosc = message.length();
+
+				for (int i = 0; i < dlugosc; i++) {
+					if (message[i] > 95)
+						message[i] = (char)(message[i] - 32);
+				}
+				std::cout << message << std::endl;
+				for (int i = 0; i < dlugosc; i++) {
+
+					x = message[i];
+					flag = 0;
+					for (int j = 0; j < 36; j++) {
+						if (x == alf[j]) {
+							flag = 1;
+							if (klucz + j > 35) {
+								a = (klucz + j) - 36;
+								message[i] = alf[a];
+								std::cout << message[i];
+								continue;
+							}
+							else {
+								message[i] = alf[klucz + j];
+								std::cout << message[i];
+								continue;
+							}
+						}
+						else {
+							continue;
+						}
+					}
+					if (!flag) std::cout << message[i];
+				}
+				std::cout << std::endl;
+			}
+			else {
+				std::cout << "Podaj szyfr: ";
+				std::cin.ignore(std::numeric_limits < std::streamsize >::max(), '\n');
+				std::getline(std::cin, message);
+				std::cout << std::endl;
+				int dlugosc = message.length();
+				for (int i = 0; i < dlugosc; i++) {
+					if (message[i] > 95)
+						message[i] = (char)(message[i] - 32);
+				}
+				for (int i = 0; i < dlugosc; i++) {
+					x = message[i];
+					flag = 0;
+					for (int j = 0; j < 36; j++) {
+						if (x == alf[j]) {
+							flag = 1;
+							if (j - klucz < 0) {
+								a = (j - klucz) + 36;
+								message[i] = alf[a];
+								std::cout << message[i];
+								continue;
+							}
+							else {
+								message[i] = alf[j - klucz];
+								std::cout << message[i];
+								continue;
+							}
+						}
+						else {
+							continue;
+						}
+					}
+					if (!flag) std::cout << message[i];
+				}
+				std::cout << std::endl;
 			}
 		}
 		else {
