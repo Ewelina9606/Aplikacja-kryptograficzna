@@ -61,7 +61,8 @@ int main(int argc, char* argv[]) {
 				} while (d == -1);
 
 				std::cout << "Podaj wiadomosc: ";
-				std::cin >> message;
+				std::cin.ignore(std::numeric_limits < std::streamsize >::max(), '\n');
+				std::getline(std::cin, message);
 				std::cout << std::endl;
 
 				//------------------------------------------------------------------------------
