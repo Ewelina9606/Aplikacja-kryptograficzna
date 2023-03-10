@@ -1,0 +1,11 @@
+version: '2.3'
+services:
+  jenkins-master:
+    container_name: jenkins-master
+    image: local_jenkins_with_docker:latest
+    ports: 
+      - "8080:8080"
+      - "50000:50000"
+    volumes:
+      - C:\Users\Max\Desktop\all\jenkins\data:/var/jenkins_home:rw
+      - //var/run/docker.sock:/var/run/docker.sock
